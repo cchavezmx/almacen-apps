@@ -10,7 +10,6 @@ const BaserURL = process.env.NEXT_PUBLIC_API
 export default function ModalNewCode ({ onClose, isOpen }) {
 
   const { user } = useUser()
-  // const [codigo, setCodigo] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [umed, setUmed] = useState('')
   const [alterno, setAltEnro] = useState('')
