@@ -1,6 +1,6 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-export default async function serachProducts (req, res) {
+export default async function searchProducts (req, res) {
   const url = process.env.NEXT_PUBLIC_API
   const { text } = req.query
   try {
