@@ -13,7 +13,7 @@ const Layout = ({ children, headerName }) => {
       <div className="w-screen">
         <Header headerName={headerName} />
       </div>
-      <main className="w-screen">
+      <main className="w-screen container mx-auto">
         {children}
       </main>
     <footer className="footer">

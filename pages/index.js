@@ -2,14 +2,16 @@ import { useState } from 'react'
 import Head from 'next/head'
 import useSWR from 'swr'
 import Button from '../mui/Button.jsx'
-import Input from '../mui/Input.jsx'
+import BuscadorCode from '../src/components/BuscadorCode.jsx'
 import Table from '../src/components/Table.jsx'
 import ModalNewCode from '../src/components/ModalNewCode.jsx'
 
 export default function Home() {
 
   const [newCodeModal, setNewCodeModal] = useState(false)
-
+  const [resultData, setResultData] = useState([])
+  const [search, setSearch] = useState('')
+  
   const { data } = useSWR('/api/getProductos?skip=40')
   const columns = [
     { id: 'AUTOR', label: 'Autor' },
@@ -32,10 +34,14 @@ export default function Home() {
         <Button onClick={() => setNewCodeModal(!newCodeModal)}>
           Nuevo código
         </Button>
-        <Input placeholder="Buscar codigo" />
+        <BuscadorCode setResultData={setResultData} search={search} setSearch={setSearch} />
       </div>
-      <div className="p-2 mt-6">
-        { Array.isArray(data?.data) && <Table data={data.data} columns={columns} /> }
+      <div className="p-2 mt-6">        
+        {
+          resultData.length > 0 && search.length > 0
+          ? <Table data={resultData} columns={columns} /> 
+          : Array.isArray(data?.data) && <Table data={data?.data} columns={columns} />
+        }
       </div>
       </main>
       <ModalNewCode isOpen={newCodeModal} onClose={() => setNewCodeModal(false)} />
