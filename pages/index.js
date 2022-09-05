@@ -28,9 +28,9 @@ export default function Home() {
       </Head>
 
       <main>
-      <div className="flex justify-between m-2">
+      <div className="flex justify-between m-2 mt-5">
         <Button onClick={() => setNewCodeModal(!newCodeModal)}>
-          Nuevo codigo
+          Nuevo código
         </Button>
         <Input placeholder="Buscar codigo" />
       </div>

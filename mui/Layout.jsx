@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import Header from './Header.jsx'
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 
-export default function Layout ({ children, headerName }) {
+const Layout = ({ children, headerName }) => {
   return (
     <div className="flex flex-col justify-between">
       <Head>
@@ -22,3 +23,5 @@ export default function Layout ({ children, headerName }) {
     </div>
   )
 }
+
+export default withPageAuthRequired(Layout)

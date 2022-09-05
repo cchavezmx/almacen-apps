@@ -3,13 +3,14 @@ import { Input, Button } from '../../mui/index'
 import { Dialog, Transition } from '@headlessui/react'
 import Swal from 'sweetalert2'
 import { useSWRConfig  } from 'swr'
+import { useUser } from '@auth0/nextjs-auth0'
 
 const BaserURL = process.env.NEXT_PUBLIC_API
 
 export default function ModalNewCode ({ onClose, isOpen }) {
 
+  const { user } = useUser()
   // const [codigo, setCodigo] = useState('')
-  // const [autor, setAutor] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [umed, setUmed] = useState('')
   const [alterno, setAltEnro] = useState('')
@@ -66,7 +67,7 @@ export default function ModalNewCode ({ onClose, isOpen }) {
     }
     const data = {
       // codigo,
-      AUTOR: 'ADMIN',
+      AUTOR: user.name,
       DESCRIPCION: descripcion,
       UMED: umed,
       ALTERNO: alterno
@@ -75,7 +76,7 @@ export default function ModalNewCode ({ onClose, isOpen }) {
     if (msn?.CODIGO) {
       Swal.fire({
         title: msn?.CODIGO,
-        text: "Codigo creado correctamente",
+        text: "Código creado correctamente",
         icon: 'success',
         showCancelButton: false,
         confirmButtonColor: '#3085d6',
