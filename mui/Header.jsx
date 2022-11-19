@@ -1,8 +1,10 @@
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useUser } from '@auth0/nextjs-auth0'
 import Image from 'next/image'
+import Link from 'next/link'
+import MenuButton from './MenuButton'
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -19,6 +21,10 @@ export default function HeaderEmpresa() {
 
   const { user } = useUser()
   console.log("🚀 ~ file: Header.jsx ~ line 20 ~ HeaderEmpresa ~ user", user)
+  const [isOpen, setIsOpen] = useState(false)
+  const handledButton = () => {
+    setIsOpen(!isOpen)
+  }
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -38,6 +44,16 @@ export default function HeaderEmpresa() {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className='relative w-[100%]'>
+                  <button onClick={() => handledButton()}>
+                  <div className="space-y-2">
+                    <div className="w-8 h-0.5 bg-gray-600"></div>
+                    <div className="w-8 h-0.5 bg-gray-600"></div>
+                    <div className="w-8 h-0.5 bg-gray-600"></div>
+                  </div>
+                  </button>                  
+                <MenuButton open={isOpen} />
+                </div>
                 <div className="flex flex-shrink-0 items-center">
                   <h1 className='text-3xl font-bold'>ITA - Almacén | <span className="bg-green-500 p-1 rounded">Código 100</span></h1>
                 </div>
@@ -114,12 +130,9 @@ export default function HeaderEmpresa() {
                       </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="/api/auth/logout"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Cerrar Sesión
-                          </a>
+                          <Link href="/api/auth/logout" className='to-bg-black'>
+                            <a className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>Cerrar Sesión</a>
+                          </Link>
                         )}
                       </Menu.Item>
                     </Menu.Items>
