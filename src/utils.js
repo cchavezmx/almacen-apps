@@ -25,9 +25,9 @@ export const experimental = {
   },
   saveWords: async (words, user) => {
     const query = `
-    mutation SaveExpermientalList($busqueda: String) {
-        saveExpermientalList(busqueda: $busqueda)
-      }
+    mutation SaveExpermientalList($busqueda: String, $user: String) {
+      saveExpermientalList(busqueda: $busqueda, user: $user)
+    }
     `
 
     await fetch(baseURL, {
