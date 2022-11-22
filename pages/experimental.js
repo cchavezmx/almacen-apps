@@ -15,6 +15,7 @@ const Experimental = () => {
     const form = new FormData(e.target)
     const data = Object.fromEntries(form)
     const { xls, words, group, description } = data
+    console.log('🚀 ~ file: experimental.js ~ line 18 ~ handledConverter ~ group', group)
     const validFile = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv']
     if (!validFile.includes(xls.type)) {
       setErrors((prev) => ({ ...prev, xml: 'Solo se admiten archivos csv o de Excel' }))
@@ -49,7 +50,6 @@ const Experimental = () => {
       //   const allWords = dictionary ? [...savePrevWords, ...words.split(',')] : words.split(',')
       await experimental.saveWords(words.trim())
       const allWords = words.trim().split(',')
-      console.log('🚀 ~ file: experimental.js ~ line 52 ~ reader.onload= ~ allWords', allWords)
 
       const search = (arreglo, regex) => {
         return arreglo.filter(item => {
@@ -60,11 +60,14 @@ const Experimental = () => {
 
       const allWordsResults = []
       allWords.filter(item => item !== '').forEach(regexword => {
-        const regex = new RegExp(regexword.toLowerCase(), 'gi')
+        const regex = new RegExp(regexword.trim().toLowerCase(), 'gi')
         const result = search(json, regex)
         if (result.length > 0) {
           const oneDescription = result[0][description]
-          const oneCounter = result.map(item => item[group])
+          // filtramos el objeto solo con resultados que tengan la group
+          const populateResult = result.filter(item => item[group] !== undefined)
+          // creamos un arreglo para sumar
+          const oneCounter = populateResult.map(item => item[group] && item[group])
           const oneCounterResult = oneCounter.reduce((a, b) => a + b, 0)
           const counter = isNaN(oneCounterResult) ? 0 : oneCounterResult
           allWordsResults.push({ [description]: oneDescription, [group]: counter })
