@@ -2,21 +2,20 @@ import { Fragment, useState, useEffect } from 'react'
 import { Input, Button } from '../../mui/index'
 import { Dialog, Transition } from '@headlessui/react'
 import Swal from 'sweetalert2'
-import { useSWRConfig  } from 'swr'
+import { useSWRConfig } from 'swr'
 import { useUser } from '@auth0/nextjs-auth0'
 
 const BaserURL = process.env.NEXT_PUBLIC_API
 
 export default function ModalNewCode ({ onClose, isOpen }) {
-
   const { user } = useUser()
   const [descripcion, setDescripcion] = useState('')
   const [umed, setUmed] = useState('')
   const [alterno, setAltEnro] = useState('')
   const [erros, setErrors] = useState({})
 
-  const { mutate } = useSWRConfig ()
-  const fetchReserva = async(data) => {
+  const { mutate } = useSWRConfig()
+  const fetchReserva = async (data) => {
     return fetch(`${BaserURL}/mcbetty/codigo100`, {
       method: 'POST',
       headers: {
@@ -24,11 +23,11 @@ export default function ModalNewCode ({ onClose, isOpen }) {
       },
       body: JSON.stringify(data)
     })
-    .then(res => res.json())
-    .then(res => {
-      console.log(res)
-      return res.message
-    })    
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        return res.message
+      })
   }
 
   useEffect(() => {
@@ -39,7 +38,7 @@ export default function ModalNewCode ({ onClose, isOpen }) {
       setAltEnro('')
     }
   }, [isOpen])
-  
+
   const isValid = () => {
     if (alterno.trim() === '') {
       setErrors({ alterno: 'El campo es obligatorio' })
@@ -59,7 +58,7 @@ export default function ModalNewCode ({ onClose, isOpen }) {
     return true
   }
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!isValid()) {
       return
@@ -71,11 +70,11 @@ export default function ModalNewCode ({ onClose, isOpen }) {
       UMED: umed,
       ALTERNO: alterno
     }
-    const msn = await fetchReserva(data)    
+    const msn = await fetchReserva(data)
     if (msn?.CODIGO) {
       Swal.fire({
         title: msn?.CODIGO,
-        text: "Código creado correctamente",
+        text: 'Código creado correctamente',
         icon: 'success',
         showCancelButton: false,
         confirmButtonColor: '#3085d6',
@@ -83,14 +82,13 @@ export default function ModalNewCode ({ onClose, isOpen }) {
         confirmButtonText: 'Continuar'
       }).then((result) => {
         if (result.isConfirmed) {
-          onClose();
+          onClose()
           mutate('/api/getProductos?skip=40')
         }
       })
-    }    
+    }
   }
 
-  
   return (
     <Transition appear show={isOpen} as={Fragment}>
     <Dialog as="div" className="relative z-10" onClose={onClose}>

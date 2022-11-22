@@ -10,17 +10,16 @@ const navigation = [
   { name: 'Dashboard', href: '#', current: true },
   { name: 'Team', href: '#', current: false },
   { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
+  { name: 'Calendar', href: '#', current: false }
 ]
 
-function classNames(...classes) {
+function classNames (...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function HeaderEmpresa() {
-
+export default function HeaderEmpresa () {
   const { user } = useUser()
-  console.log("🚀 ~ file: Header.jsx ~ line 20 ~ HeaderEmpresa ~ user", user)
+  console.log('🚀 ~ file: Header.jsx ~ line 20 ~ HeaderEmpresa ~ user', user)
   const [isOpen, setIsOpen] = useState(false)
   const handledButton = () => {
     setIsOpen(!isOpen)
@@ -33,26 +32,28 @@ export default function HeaderEmpresa() {
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
+                {/* Mobile menu button */}
                 <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="sr-only">Open main menu</span>
-                  {open ? (
+                  {open
+                    ? (
                     <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
+                      )
+                    : (
                     <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
+                      )}
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className='relative w-[100%]'>
+                <div className='relative w-[100%] flex items-center'>
                   <button onClick={() => handledButton()}>
                   <div className="space-y-2">
                     <div className="w-8 h-0.5 bg-gray-600"></div>
                     <div className="w-8 h-0.5 bg-gray-600"></div>
                     <div className="w-8 h-0.5 bg-gray-600"></div>
                   </div>
-                  </button>                  
-                <MenuButton open={isOpen} />
+                  </button>
+                <MenuButton open={isOpen} setOpen={setIsOpen} />
                 </div>
                 <div className="flex flex-shrink-0 items-center">
                   <h1 className='text-3xl font-bold'>ITA - Almacén | <span className="bg-green-500 p-1 rounded">Código 100</span></h1>
@@ -91,7 +92,7 @@ export default function HeaderEmpresa() {
                       <span className="sr-only">Open user menu</span>
                       <Image
                         width={40}
-                        height={40}                        
+                        height={40}
                         className="h-8 w-8 rounded-full"
                         src={user?.picture}
                         alt=""

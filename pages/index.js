@@ -6,21 +6,20 @@ import BuscadorCode from '../src/components/BuscadorCode.jsx'
 import Table from '../src/components/Table.jsx'
 import ModalNewCode from '../src/components/ModalNewCode.jsx'
 
-export default function Home() {
-
+export default function Home () {
   const [newCodeModal, setNewCodeModal] = useState(false)
   const [resultData, setResultData] = useState([])
   const [search, setSearch] = useState('')
-  
+
   const { data } = useSWR('/api/getProductos?skip=40')
   const columns = [
     { id: 'AUTOR', label: 'Autor' },
     { id: 'CODIGO', label: 'Código' },
     { id: 'DESCRIPCION', label: 'Descripción' },
     { id: 'ALTENRO', label: 'Código alterno' },
-    { id: 'UMED', label: 'Unidad' },    
+    { id: 'UMED', label: 'Unidad' }
   ]
-  
+
   return (
     <div>
       <Head>
@@ -36,11 +35,11 @@ export default function Home() {
         </Button>
         <BuscadorCode setResultData={setResultData} search={search} setSearch={setSearch} />
       </div>
-      <div className="p-2 mt-6">        
+      <div className="p-2 mt-6">
         {
           resultData.length > 0 && search.length > 0
-          ? <Table data={resultData} columns={columns} /> 
-          : Array.isArray(data?.data) && <Table data={data?.data} columns={columns} />
+            ? <Table data={resultData} columns={columns} />
+            : Array.isArray(data?.data) && <Table data={data?.data} columns={columns} />
         }
       </div>
       </main>

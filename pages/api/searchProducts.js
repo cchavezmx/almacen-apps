@@ -10,11 +10,11 @@ export default async function searchProducts (req, res) {
         'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(data => data.message)
-    .catch(err => console.log(err))
+      .then(res => res.json())
+      .then(data => data.message)
+      .catch(err => console.log(err))
     return res.status(200).json({ data })
-  } catch (error) {    
+  } catch (error) {
     return res.status(500).json({ error: error.message })
   }
 }
