@@ -53,14 +53,14 @@ const Experimental = () => {
 
       const search = (arreglo, regex) => {
         return arreglo.filter(item => {
-          const currentDescription = String(item[description]).toLowerCase()
+          const currentDescription = String(item[description])
           return currentDescription.match(regex)
         })
       }
 
       const allWordsResults = []
       allWords.filter(item => item !== '').forEach(regexword => {
-        const regex = new RegExp(regexword.toLowerCase(), 'gi')
+        const regex = new RegExp(regexword, 'gi')
         const result = search(json, regex)
         if (result.length > 0) {
           const oneDescription = result[0][description]
