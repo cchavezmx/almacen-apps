@@ -23,7 +23,7 @@ export const experimental = {
 
     return response
   },
-  saveWords: async (words) => {
+  saveWords: async (words, user) => {
     const query = `
     mutation SaveExpermientalList($busqueda: String) {
         saveExpermientalList(busqueda: $busqueda)
@@ -35,7 +35,7 @@ export const experimental = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ query, variables: { busqueda: words } })
+      body: JSON.stringify({ query, variables: { busqueda: words, user } })
     }).then(res => res.json())
       .then(res => {
         console.log(res)

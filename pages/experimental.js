@@ -2,12 +2,13 @@ import { useState } from 'react'
 import { read, utils, writeFile } from 'xlsx'
 import { experimental } from '../src/utils.js'
 import { z } from 'zod'
+import { useUser } from '@auth0/nextjs-auth0'
 // iterar, guardar palabras y retornarlas y validar form
 const Experimental = () => {
   const [checked, setChecked] = useState(true)
   const [errors, setErrors] = useState([])
   const emptyErrors = () => setErrors([])
-  console.log('🚀 ~ file: experimental.js ~ line 10 ~ Experimental ~ errors', errors)
+  const { user } = useUser()
 
   const handledConverter = (e) => {
     e.preventDefault()
@@ -15,7 +16,6 @@ const Experimental = () => {
     const form = new FormData(e.target)
     const data = Object.fromEntries(form)
     const { xls, words, group, description } = data
-    console.log('🚀 ~ file: experimental.js ~ line 18 ~ handledConverter ~ group', group)
     const validFile = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv']
     if (!validFile.includes(xls.type)) {
       setErrors((prev) => ({ ...prev, xml: 'Solo se admiten archivos csv o de Excel' }))
@@ -48,7 +48,6 @@ const Experimental = () => {
       const json = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]])
 
       //   const allWords = dictionary ? [...savePrevWords, ...words.split(',')] : words.split(',')
-      await experimental.saveWords(words.trim())
       const allWords = words.trim().split(',')
 
       const search = (arreglo, regex) => {
@@ -63,19 +62,24 @@ const Experimental = () => {
         const regex = new RegExp(regexword.trim().toLowerCase(), 'gi')
         const result = search(json, regex)
         if (result.length > 0) {
-          const oneDescription = result[0][description]
+          const reducer = Object.entries(result).sort(([keyA, valueA], [keyB, valueB]) => {
+            return Object.values(valueA).length - Object.values(valueB).length
+          })
+          const lastResult = reducer.pop()
+          const [, oneDescription] = lastResult
           // filtramos el objeto solo con resultados que tengan la group
           const populateResult = result.filter(item => item[group] !== undefined)
           // creamos un arreglo para sumar
           const oneCounter = populateResult.map(item => item[group] && item[group])
           const oneCounterResult = oneCounter.reduce((a, b) => a + b, 0)
           const counter = isNaN(oneCounterResult) ? 0 : oneCounterResult
-          allWordsResults.push({ [description]: oneDescription, [group]: counter })
+          allWordsResults.push({ ...oneDescription, [description]: oneDescription[description], [group]: counter })
         } else {
           allWordsResults.push({ [description]: `No econtré la palabra ${regexword} `, [group]: 0 })
         }
       })
 
+      await experimental.saveWords(words.trim(), user?.name)
       const finalResult = allWordsResults.flat()
       // crear un nuevo archivo
       const wb2 = utils.book_new()
