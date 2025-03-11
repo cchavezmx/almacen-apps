@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import * as XLSX from 'xlsx'
-import { parse, isWithinInterval, compareDesc } from 'date-fns'
+import { isWithinInterval, compareDesc } from 'date-fns'
 
 const FileUploader = () => {
   const [result, setResult] = useState(null)
