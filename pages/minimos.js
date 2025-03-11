@@ -88,6 +88,31 @@ const FileUploader = () => {
     setStatsData(calculateStats(datosFiltrados))
   }
 
+  const downloadExcel = () => {
+    if (!filteredData.length) return
+
+    // Crear una hoja con los datos filtrados
+    const ws = XLSX.utils.json_to_sheet(filteredData)
+
+    // Crear una hoja para las estadísticas
+    const statsRows = Object.entries(statsData).map(([field, values]) => ({
+      Medición: field,
+      'Valor Mínimo': values.min.toFixed(2),
+      'Fecha Mínimo': values.minDate,
+      'Valor Máximo': values.max.toFixed(2),
+      'Fecha Máximo': values.maxDate
+    }))
+    const wsStats = XLSX.utils.json_to_sheet(statsRows)
+
+    // Crear un libro de trabajo y añadir las hojas
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, wsStats, 'Estadísticas')
+    XLSX.utils.book_append_sheet(wb, ws, 'Datos Filtrados')
+
+    // Generar el archivo y descargarlo
+    XLSX.writeFile(wb, 'reporte-voltajes.xlsx')
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -141,6 +166,15 @@ const FileUploader = () => {
           >
             Procesar
           </button>
+          {filteredData.length > 0 && (
+            <button
+              onClick={() => downloadExcel()}
+              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700
+                focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            >
+              Descargar reporte
+            </button>
+          )}
         </div>
       </div>
 
