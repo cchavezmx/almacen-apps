@@ -9,20 +9,32 @@ const MenuButton = ({ open = false, setOpen }) => {
     }
   }, [router, setOpen])
   return (
-<div style={{ display: open ? 'flex' : 'none' }}>
-    <div className="menu_flotante text-bg-gray-300 flex flex-col gap-1">
+    <div style={{ display: open ? 'flex' : 'none' }}>
+      <div className="menu_flotante text-bg-gray-300 flex flex-col gap-1">
         <button
-            onClick={() => router.push('/')}
-            className="bg-[#60a5fa] w-full h-10 hover:bg-opacity-30">
-            <span className="text-gray-bg-light-100">Home</span>
+          onClick={() => router.push('/')}
+          className="bg-[#60a5fa] w-full h-10 hover:bg-opacity-30"
+        >
+          <span className="text-gray-bg-light-100">Home</span>
         </button>
         <button
-            className="bg-[#60a5fa] w-full h-10 hover:bg-opacity-30"
-            onClick={() => router.push('/experimental', undefined, { shallow: false })}>
-            <span className="text-gray-bg-light-100">Experimental</span>
+          className="bg-[#60a5fa] w-full h-10 hover:bg-opacity-30"
+          onClick={() =>
+            router.push('/experimental', undefined, { shallow: false })
+          }
+        >
+          <span className="text-gray-bg-light-100">Experimental</span>
         </button>
+        <button
+          className="bg-[#60a5fa] w-full h-10 hover:bg-opacity-30"
+          onClick={() =>
+            router.push('/minimos', undefined, { shallow: false })
+          }
+        >
+          <span className="text-gray-bg-light-100">Minimos y Maximos</span>
+        </button>
+      </div>
     </div>
-</div>
   )
 }
 
