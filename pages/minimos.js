@@ -160,13 +160,13 @@ const FileUploader = () => {
                     Mínimo
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Fecha Mínimo
+                    Fecha Mínimo (Mes/Día/Año Hora)
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Máximo
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Fecha Máximo
+                    Fecha Máximo (Mes/Día/Año Hora)
                   </th>
                 </tr>
               </thead>
@@ -206,7 +206,7 @@ const FileUploader = () => {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Fecha
+                    Fecha (Mes/Día/Año Hora)
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     VOLTAJE L-1
